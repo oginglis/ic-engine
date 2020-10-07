@@ -1,12 +1,11 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
     <ThreeTest />
   </div>
 </template>
 
 <script>
-import ThreeTest from './components/HelloWorld.vue'
+import ThreeTest from './components/ThreeTest.vue'
 
 export default {
   name: 'App',
