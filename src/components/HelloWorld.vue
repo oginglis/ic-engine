@@ -49,9 +49,11 @@ export default {
       
       this.controls = new OrbitControls( this.camera, this.renderer.domElement );
       this.controls.maxDistance = 1.5;
-      this.controls.minDistance = 0.5;
+      this.controls.minDistance = 1.3;
       this.controls.minAzimuthAngle = 3;
       this.controls.maxAzimuthAngle = 2;
+      this.controls.target.set(0,0,0);
+      this.controls.enablePan = false;
       this.controls.update();
 
 
@@ -74,7 +76,7 @@ export default {
         function ( gltf ) {		
           console.log(gltf); 
           gltf.scene.scale.set(20,20,20);
-          gltf.scene.position.y = -.3; 
+          gltf.scene.position.y = -.25; 
           gltf.scene.rotation.y = -.3; 
           sceneObj.add( gltf.scene);
           
