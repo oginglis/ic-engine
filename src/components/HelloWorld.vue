@@ -5,6 +5,7 @@
 <script>
 import * as Three from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 export default {
   name: 'ThreeTest',
@@ -14,7 +15,7 @@ export default {
       scene: null,
       renderer: null,
       mesh: null,
-      model: null,
+      controls: null,
     }
   },
   methods: {
@@ -41,15 +42,27 @@ export default {
       this.renderer = new Three.WebGLRenderer({antialias: true});
       this.renderer.setClearColor( 0xC5C5C3 );
       this.renderer.setSize(container.clientWidth, container.clientHeight);
+      // Change the colour encoding for the renderer
       this.renderer.outputEncoding = Three.sRGBEncoding;
+      // Attach renderer to the DOM
       container.appendChild(this.renderer.domElement);
+      
+      this.controls = new OrbitControls( this.camera, this.renderer.domElement );
+      this.controls.maxDistance = 1.5;
+      this.controls.minDistance = 0.5;
+      this.controls.minAzimuthAngle = 3;
+      this.controls.maxAzimuthAngle = 2;
+      this.controls.update();
 
-      // Add a Light
+
+
+      // Add a Light - point light required for materials
       var light = new Three.PointLight( 0xffffff, 10, 100 );
       light.position.set( 1, 5, 20 );
-
       this.scene.add( light );
-
+      var light2 = new Three.PointLight( 0xffffff, 10, 100 );
+      light2.position.set( 1, 5, -20 );
+      this.scene.add( light2 );
       // Instantiate a loader
       var loader = new GLTFLoader();
 
@@ -80,8 +93,7 @@ export default {
     },
     animate: function() {
         requestAnimationFrame(this.animate);
-        this.mesh.rotation.x += 0.01;
-        this.mesh.rotation.y += 0.02;
+        this.controls.update();
         this.renderer.render(this.scene, this.camera);
     }
   },
