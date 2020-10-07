@@ -1,16 +1,18 @@
 <template>
   <div id="wrapper">
+    <Nav/>
     <ThreeTest />
   </div>
 </template>
 
 <script>
 import ThreeTest from '@/components/ThreeTest.vue'
-
+import Nav from '@/components/Nav.vue'
 export default {
   name: 'Home',
   components: {
-    ThreeTest
+    ThreeTest,
+    Nav
   }
 }
 </script>
@@ -23,5 +25,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 0px;
+  width: 100vw;
+  overflow: hidden;
 }
 </style>

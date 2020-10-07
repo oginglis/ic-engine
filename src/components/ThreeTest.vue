@@ -57,6 +57,8 @@ export default {
       this.controls.maxAzimuthAngle = 2;
       this.controls.target.set(0,0,0);
       this.controls.enablePan = false;
+      this.controls.autoRotate = true;
+      this.controls.autoRotateSpeed = 0.2;
       this.controls.update();
 
       // Add a Light - point light required for materials
