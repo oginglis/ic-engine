@@ -1,5 +1,8 @@
 <template>
-    <div id="container"></div>
+    <div id="container">
+      <h1 class="explode-check">Exploded? = {{exploded}}</h1>
+      <h1 class="simulate-check">Simulating? = {{simulating}}</h1>
+    </div>
 </template>
 
 <script>
@@ -10,6 +13,10 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 export default {
   name: 'ThreeTest',
+  props: {
+    exploded: Boolean,
+    simulating: Boolean,
+  },
   data() {
     return {
       camera: null,
@@ -18,14 +25,18 @@ export default {
       controls: null,
       container: null,
       geo: null,
+      top: null,
+      bottom: null,
+      screen: null,
+      right: null,
+      left: null,
+      front:null,
       
     }
   },
   methods: {
     scaleCanvas() {
       this.camera.aspect(this.container.clientWidth, this.container.clientHeight);
-      
-    
       this.renderer.setSize( this.container.clientWidth, this.container.clientHeight);
       this.camera.updateProjectMatrix();
     },
@@ -34,13 +45,9 @@ export default {
       this.container = container;
       this.camera = new Three.PerspectiveCamera(70, container.clientWidth/container.clientHeight, 0.25, 20);
       this.camera.position.set( 0, 0, 1 );
-
-      
-
       this.scene = new Three.Scene();
       let sceneObj = this.scene;
 
-      // this.scene.add(this.mesh);
 
       this.renderer = new Three.WebGLRenderer({antialias: true});
       this.renderer.setClearColor( 0xC5C5C3 );
@@ -60,7 +67,7 @@ export default {
       this.controls.target.set(0,0,0);
       this.controls.enablePan = false;
       this.controls.autoRotate = true;
-      this.controls.autoRotateSpeed = 0.2;
+      this.controls.autoRotateSpeed = 0.1;
       this.controls.update();
 
       // Add a Light - point light required for materials
@@ -68,25 +75,35 @@ export default {
       light.position.set( 1, 5, 20 );
       this.scene.add( light );
       var light2 = new Three.PointLight( 0xffffff, 10, 100 );
-      light2.position.set( 1, 5, -20 );
+      light2.position.set( -4, 5, -20 );
       this.scene.add( light2 );
-      
+      var light3 = new Three.PointLight( 0xffffff, 10, 100 );
+      light3.position.set( 4, 5, -20 );
+      this.scene.add( light3 );
       // Instantiate a loader
       var loader = new GLTFLoader();
 
-      // Load a glTF resource
+      var frontGeo, backGeo, rightGeo, leftGeo, bottomGeo, screenGeo, topGeo
+
+      this.front = frontGeo;
+      this.back = backGeo;
+      this.right = rightGeo;
+      this.left = leftGeo;
+      this.bottom = bottomGeo;
+      this.screen = screenGeo;
+      this.top = topGeo;
+
+
+      // Load FRONT model
       loader.load(
         // resource URL
-        './yo.gltf',
+        './front.gltf',
         // called when the resource is loaded
         function ( gltf ) {		
           console.log(gltf); 
-          gltf.scene.scale.set(20,20,20);
-          gltf.scene.position.y = -.25; 
-          gltf.scene.rotation.y = -.3; 
+          gltf.scene.scale.set(.3,.3,.3);
           sceneObj.add( gltf.scene);
-          this.geo = gltf.scene;
-          
+          frontGeo = gltf.scene;
         },
         // called while loading is progressing
         function ( xhr ) {
@@ -99,6 +116,146 @@ export default {
 
         }
       );
+      
+      // Load screen model
+      loader.load(
+        // resource URL
+        './screen.gltf',
+        // called when the resource is loaded
+        function ( gltf ) {		
+          console.log(gltf); 
+          gltf.scene.scale.set(.3,.3,.3);
+          sceneObj.add( gltf.scene);
+          screenGeo = gltf.scene;
+        },
+        // called while loading is progressing
+        function ( xhr ) {
+          console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+        },
+        // called when loading has errors
+        function ( error ) {
+          console.log(error)
+          console.log( 'An error happened ' + error );
+
+        }
+      );
+
+      // Load top model
+      loader.load(
+        // resource URL
+        './top.gltf',
+        // called when the resource is loaded
+        function ( gltf ) {		
+          console.log(gltf); 
+          gltf.scene.scale.set(.3,.3,.3);
+          sceneObj.add( gltf.scene);
+          topGeo = gltf.scene;
+        },
+        // called while loading is progressing
+        function ( xhr ) {
+          console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+        },
+        // called when loading has errors
+        function ( error ) {
+          console.log(error)
+          console.log( 'An error happened ' + error );
+
+        }
+      );
+
+      // Load right model
+      loader.load(
+        // resource URL
+        './right.gltf',
+        // called when the resource is loaded
+        function ( gltf ) {		
+          console.log(gltf); 
+          gltf.scene.scale.set(.3,.3,.3);
+          sceneObj.add( gltf.scene);
+          rightGeo = gltf.scene;
+        },
+        // called while loading is progressing
+        function ( xhr ) {
+          console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+        },
+        // called when loading has errors
+        function ( error ) {
+          console.log(error)
+          console.log( 'An error happened ' + error );
+
+        }
+      );
+
+      // Load left model
+      loader.load(
+        // resource URL
+        './left.gltf',
+        // called when the resource is loaded
+        function ( gltf ) {		
+          console.log(gltf); 
+          gltf.scene.scale.set(.3,.3,.3);
+          sceneObj.add( gltf.scene);
+          leftGeo = gltf.scene;
+        },
+        // called while loading is progressing
+        function ( xhr ) {
+          console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+        },
+        // called when loading has errors
+        function ( error ) {
+          console.log(error)
+          console.log( 'An error happened ' + error );
+
+        }
+      );
+
+      // Load back model
+      loader.load(
+        // resource URL
+        './back.gltf',
+        // called when the resource is loaded
+        function ( gltf ) {		
+          console.log(gltf); 
+          gltf.scene.scale.set(.3,.3,.3);
+          sceneObj.add( gltf.scene);
+          backGeo = gltf.scene;
+        },
+        // called while loading is progressing
+        function ( xhr ) {
+          console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+        },
+        // called when loading has errors
+        function ( error ) {
+          console.log(error)
+          console.log( 'An error happened ' + error );
+
+        }
+      );
+
+      // Load bottom model
+      loader.load(
+        // resource URL
+        './bottom.gltf',
+        // called when the resource is loaded
+        function ( gltf ) {		
+          console.log(gltf); 
+          gltf.scene.scale.set(.3,.3,.3);
+          sceneObj.add( gltf.scene);
+          bottomGeo = gltf.scene;
+        },
+        // called while loading is progressing
+        function ( xhr ) {
+          console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+        },
+        // called when loading has errors
+        function ( error ) {
+          console.log(error)
+          console.log( 'An error happened ' + error );
+
+        }
+      );
+
+      console.log(this.front)
     },
     animate: function() {
         requestAnimationFrame(this.animate);
@@ -123,4 +280,14 @@ export default {
  #container{
    height: 100vh;
  }
+  .explode-check {
+    position: absolute;
+    color: white;
+    top: 10%;
+  }
+  .simulate-check {
+    position: absolute;
+    color: white;
+    top: 20%;
+  }
 </style>

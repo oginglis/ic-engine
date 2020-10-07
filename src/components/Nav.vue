@@ -2,8 +2,8 @@
   <div id="nav">
       <h1 class=nav-title>ME2 Thermodynamics Lab</h1>
       <div class="nav-button-wrapper">
-          <h1 class="nav-button">explore model</h1>
-          <h1 class="nav-button">start simulation</h1>
+          <h1 class="nav-button" @click="toggleExplode">exploded view</h1>
+          <h1 class="nav-button" @click="toggleSimulation">start simulation</h1>
       </div>
   </div>
 </template>
@@ -13,6 +13,14 @@
 
 export default {
   name: 'Nav',
+  methods: {
+		toggleExplode: function () {
+			this.$emit('explode');
+		},
+		toggleSimulation: function (){
+			this.$emit('simulate');
+		}
+  }
 }
 </script>
 

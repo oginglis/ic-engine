@@ -1,7 +1,7 @@
 <template>
   <div id="wrapper">
-    <Nav/>
-    <ThreeTest />
+    <Nav  @explode="explodeToggle" @simulate="simulateToggle" />
+    <ThreeTest :exploded="isExploded" :simulating="isSimulating"/>
   </div>
 </template>
 
@@ -13,6 +13,32 @@ export default {
   components: {
     ThreeTest,
     Nav
+  },
+  data:function () {
+    return {
+			isExploded: false,
+			isSimulating: false,
+    }
+	},
+	watch: {
+		isExploded: function (val){
+			if (val && this.isSimulating == true) {
+				this.isSimulating = false;
+			}
+		},
+		isSimulating: function (val){
+			if (val && this.isExploded == true) {
+				this.isExploded = false;
+			}
+		}
+	},
+  methods: {
+    explodeToggle: function () {
+      this.isExploded = !this.isExploded;
+    },
+    simulateToggle: function () {
+      this.isSimulating = !this.isSimulating;
+    }
   }
 }
 </script>
@@ -26,6 +52,5 @@ export default {
   color: #2c3e50;
   margin-top: 0px;
   width: 100vw;
-  overflow: hidden;
 }
 </style>
