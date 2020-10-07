@@ -21,18 +21,26 @@ export default {
     init: function() {
       let container = document.getElementById('container');
 
-      this.camera = new Three.PerspectiveCamera(70, container.clientWidth/container.clientHeight, 0.01, 10);
-      this.camera.position.z = 1;
+      this.camera = new Three.PerspectiveCamera(70, container.clientWidth/container.clientHeight, 0.25, 20);
+      this.camera.position.set( 0, 0, 1 );
+
+      
 
       this.scene = new Three.Scene();
+      let sceneObj = this.scene;
+
+      var light = new Three.AmbientLight(0xffffff);
+      this.scene.add(light);
+      
 
       let geometry = new Three.BoxGeometry(0.2, 0.2, 0.2);
       let material = new Three.MeshNormalMaterial();
 
       this.mesh = new Three.Mesh(geometry, material);
-      this.scene.add(this.mesh);
+      // this.scene.add(this.mesh);
 
       this.renderer = new Three.WebGLRenderer({antialias: true});
+      this.renderer.setClearColor( 0xC5C5C3 );
       this.renderer.setSize(container.clientWidth, container.clientHeight);
       container.appendChild(this.renderer.domElement);
 
@@ -42,11 +50,13 @@ export default {
       // Load a glTF resource
       loader.load(
         // resource URL
-        '../assets/modeltest.gltf',
+        './yo.gltf',
         // called when the resource is loaded
         function ( gltf ) {		
-          console.log(gltf);   
-          this.scene.add( gltf.scene);
+          console.log(sceneObj); 
+          gltf.scene.scale.set(20,20,20);
+          gltf.scene.position.y = -.3; 
+          sceneObj.add( gltf.scene);
         },
         // called while loading is progressing
         function ( xhr ) {
