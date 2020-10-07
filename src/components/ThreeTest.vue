@@ -83,16 +83,8 @@ export default {
       // Instantiate a loader
       var loader = new GLTFLoader();
 
-      var frontGeo, backGeo, rightGeo, leftGeo, bottomGeo, screenGeo, topGeo
-
-      this.front = frontGeo;
-      this.back = backGeo;
-      this.right = rightGeo;
-      this.left = leftGeo;
-      this.bottom = bottomGeo;
-      this.screen = screenGeo;
-      this.top = topGeo;
-
+    
+      var self = this;
 
       // Load FRONT model
       loader.load(
@@ -102,8 +94,9 @@ export default {
         function ( gltf ) {		
           console.log(gltf); 
           gltf.scene.scale.set(.3,.3,.3);
+          gltf.scene.position.x = .2;
           sceneObj.add( gltf.scene);
-          frontGeo = gltf.scene;
+          self.front = gltf.scene;
         },
         // called while loading is progressing
         function ( xhr ) {
@@ -117,6 +110,7 @@ export default {
         }
       );
       
+      
       // Load screen model
       loader.load(
         // resource URL
@@ -125,8 +119,9 @@ export default {
         function ( gltf ) {		
           console.log(gltf); 
           gltf.scene.scale.set(.3,.3,.3);
+          gltf.scene.position.x = .2;
           sceneObj.add( gltf.scene);
-          screenGeo = gltf.scene;
+          self.screen = gltf.scene;
         },
         // called while loading is progressing
         function ( xhr ) {
@@ -148,8 +143,9 @@ export default {
         function ( gltf ) {		
           console.log(gltf); 
           gltf.scene.scale.set(.3,.3,.3);
+          gltf.scene.position.x = .2;
           sceneObj.add( gltf.scene);
-          topGeo = gltf.scene;
+          self.top = gltf.scene;
         },
         // called while loading is progressing
         function ( xhr ) {
@@ -171,8 +167,9 @@ export default {
         function ( gltf ) {		
           console.log(gltf); 
           gltf.scene.scale.set(.3,.3,.3);
+          gltf.scene.position.x = .2;
           sceneObj.add( gltf.scene);
-          rightGeo = gltf.scene;
+          self.right = gltf.scene;
         },
         // called while loading is progressing
         function ( xhr ) {
@@ -194,8 +191,9 @@ export default {
         function ( gltf ) {		
           console.log(gltf); 
           gltf.scene.scale.set(.3,.3,.3);
+          gltf.scene.position.x = .2;
           sceneObj.add( gltf.scene);
-          leftGeo = gltf.scene;
+          self.left = gltf.scene;
         },
         // called while loading is progressing
         function ( xhr ) {
@@ -217,8 +215,9 @@ export default {
         function ( gltf ) {		
           console.log(gltf); 
           gltf.scene.scale.set(.3,.3,.3);
+          gltf.scene.position.x = .2;
           sceneObj.add( gltf.scene);
-          backGeo = gltf.scene;
+          self.back = gltf.scene;
         },
         // called while loading is progressing
         function ( xhr ) {
@@ -240,8 +239,9 @@ export default {
         function ( gltf ) {		
           console.log(gltf); 
           gltf.scene.scale.set(.3,.3,.3);
+          gltf.scene.position.x = .2;
           sceneObj.add( gltf.scene);
-          bottomGeo = gltf.scene;
+          self.bottom = gltf.scene;
         },
         // called while loading is progressing
         function ( xhr ) {
@@ -273,6 +273,58 @@ export default {
   destroyed() {
     window.removeEventListener("resize", this.scaleCanvas);
   },
+  watch: {
+    exploded: function(newVal) { // watch it
+      if (newVal == true) {
+        console.log(this.top);
+        this.top.position.y = .2;
+        this.right.position.x = .4;
+        this.bottom.position.y = -.2;
+        this.left.position.x = 0;
+        this.screen.position.z = .2;
+
+      } else if (newVal == false) {
+        this.top.position.y = 0;
+        this.top.position.y = 0;
+        this.right.position.x = .2;
+        this.bottom.position.y = 0;
+        this.left.position.x = .2;
+        this.screen.position.z = 0;
+      }
+    },
+    simulating: function(newVal) { // watch it
+      if (newVal == true) {
+        // Re-Assemble Geo
+        this.top.position.z = .5;
+        this.back.position.z = .5;
+        this.right.position.z = .5;
+        this.bottom.position.z = .5;
+        this.left.position.z = .5;
+        this.screen.position.z = .5;
+        this.front.position.z = .5;
+        // Stop Panning
+        this.controls.autoRotate = false;
+        this.controls.update();
+
+        this.camera.position.set( 0, 0, 1 );
+
+      } else if (newVal == false) {
+        this.top.position.z = 0;
+        this.back.position.z = 0;
+        this.right.position.z = 0;
+        this.bottom.position.z = 0;
+        this.left.position.z = 0;
+        this.screen.position.z = 0;
+        this.front.position.z = 0;
+        // Start Panning
+        this.controls.autoRotate = true;
+        this.controls.autoRotateSpeed = 0.1;
+        this.controls.update();
+        this.camera.position.set( 0, 0, 1 );
+      }
+    }
+
+  }
 }
 </script>
 
