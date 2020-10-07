@@ -29,8 +29,7 @@ export default {
       this.scene = new Three.Scene();
       let sceneObj = this.scene;
 
-      var light = new Three.AmbientLight(0xffffff);
-      this.scene.add(light);
+      
       
 
       let geometry = new Three.BoxGeometry(0.2, 0.2, 0.2);
@@ -42,7 +41,14 @@ export default {
       this.renderer = new Three.WebGLRenderer({antialias: true});
       this.renderer.setClearColor( 0xC5C5C3 );
       this.renderer.setSize(container.clientWidth, container.clientHeight);
+      this.renderer.outputEncoding = Three.sRGBEncoding;
       container.appendChild(this.renderer.domElement);
+
+      // Add a Light
+      var light = new Three.PointLight( 0xffffff, 10, 100 );
+      light.position.set( 1, 5, 20 );
+
+      this.scene.add( light );
 
       // Instantiate a loader
       var loader = new GLTFLoader();
@@ -53,10 +59,12 @@ export default {
         './yo.gltf',
         // called when the resource is loaded
         function ( gltf ) {		
-          console.log(sceneObj); 
+          console.log(gltf); 
           gltf.scene.scale.set(20,20,20);
           gltf.scene.position.y = -.3; 
+          gltf.scene.rotation.y = -.3; 
           sceneObj.add( gltf.scene);
+          
         },
         // called while loading is progressing
         function ( xhr ) {
