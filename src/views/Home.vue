@@ -1,22 +1,22 @@
 <template>
-  <div id="app">
-    <router-view></router-view>
+  <div id="wrapper">
+    <ThreeTest />
   </div>
 </template>
 
 <script>
-
+import ThreeTest from '@/components/ThreeTest.vue'
 
 export default {
-  name: 'App',
+  name: 'Home',
   components: {
-
+    ThreeTest
   }
 }
 </script>
 
 <style>
-#app {
+#wrapper {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
