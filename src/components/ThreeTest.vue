@@ -1,6 +1,6 @@
 <template>
     <div id="container">
-      <h1 class="explode-check">Exploded? = {{exploded}}</h1>
+      <h1 class="explode-check" >Exploded? = {{exploded}}</h1>
       <h1 class="simulate-check">Simulating? = {{simulating}}</h1>
     </div>
 </template>
@@ -9,6 +9,7 @@
 import * as Three from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer.js';
 // import * as TWEEN from '@tweenjs/tween.js';
 
 
@@ -32,6 +33,7 @@ export default {
       right: null,
       left: null,
       front:null,
+      labelRenderer: null,
       
     }
   },
@@ -42,6 +44,13 @@ export default {
       this.camera.updateProjectMatrix();
     },
     init: function() {
+
+
+      
+
+
+
+
       let container = document.getElementById('container');
       this.container = container;
       this.camera = new Three.PerspectiveCamera(70, container.clientWidth/container.clientHeight, 0.25, 20);
@@ -84,6 +93,15 @@ export default {
       // Instantiate a loader
       var loader = new GLTFLoader();
 
+      // Label Renderer
+      
+      this.labelRenderer = new CSS2DRenderer();
+      this.labelRenderer.setSize( container.clientWidth, container.clientHeight );
+      this.labelRenderer.domElement.style.position = 'absolute';
+      this.labelRenderer.domElement.style.top = '0px';
+      this.labelRenderer.domElement.style.pointerEvents = 'none';
+      container.appendChild( this.labelRenderer.domElement );
+
     
       var self = this;
 
@@ -96,7 +114,15 @@ export default {
           console.log(gltf); 
           gltf.scene.scale.set(.3,.3,.3);
           gltf.scene.position.x = .2;
+          var text = document.createElement( 'div' );
+					text.className = 'label';
+					text.style.color = 'rgb(220,220,220)';
+					text.textContent = 'TESTER';
+
+					var label = new CSS2DObject( text );
+					label.position.copy( gltf.scene.position );
           sceneObj.add( gltf.scene);
+          sceneObj.add( label);
           self.front = gltf.scene;
         },
         // called while loading is progressing
@@ -261,7 +287,9 @@ export default {
     animate: function() {
         requestAnimationFrame(this.animate);
         this.controls.update();
+        
         this.renderer.render(this.scene, this.camera);
+        this.labelRenderer.render( this.scene, this.camera );
     },
   },
   mounted() {
