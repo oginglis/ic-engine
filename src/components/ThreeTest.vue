@@ -9,6 +9,7 @@
 import * as Three from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+// import * as TWEEN from '@tweenjs/tween.js';
 
 
 export default {
@@ -261,7 +262,7 @@ export default {
         requestAnimationFrame(this.animate);
         this.controls.update();
         this.renderer.render(this.scene, this.camera);
-    }
+    },
   },
   mounted() {
       this.init();
@@ -295,20 +296,85 @@ export default {
     simulating: function(newVal) { // watch it
       if (newVal == true) {
         // Re-Assemble Geo
-        this.top.position.z = .5;
-        this.back.position.z = .5;
-        this.right.position.z = .5;
-        this.bottom.position.z = .5;
-        this.left.position.z = .5;
-        this.screen.position.z = .5;
-        this.front.position.z = .5;
-        // Stop Panning
-        this.controls.autoRotate = false;
-        this.controls.update();
+        if(this.exploded == false){
+          this.top.position.y = -.5;
+          this.back.position.y = -.5;
+          this.right.position.y = -.5;
+          this.bottom.position.y = -.5;
+          this.left.position.y = -.5;
+          this.screen.position.y = -.5;
+          this.front.position.y = -.5;
+          this.top.position.x = .5;
+          this.back.position.x = .5;
+          this.right.position.x = .5;
+          this.bottom.position.x = .5;
+          this.left.position.x = .5;
+          this.screen.position.x = .5;
+          this.front.position.x = .5;
 
-        this.camera.position.set( 0, 0, 1 );
+
+          
+          this.screen.scale.set(.7,.7,.7);
+
+          this.front.scale.set(.7,.7,.7);
+          this.back.scale.set(.7,.7,.7);
+          this.left.scale.set(.7,.7,.7);
+          this.right.scale.set(.7,.7,.7);
+          this.top.scale.set(.7,.7,.7);
+          this.bottom.scale.set(.7,.7,.7);
+          this.controls.reset();
+          this.controls.enablePan = true;
+          this.controls.autoRotate = false;
+          this.controls.autoRotateSpeed = 0.1;
+          
+          this.screen.rotation.y = Math.atan2( ( (this.camera.position.x +.2) - this.screen.position.x ), ( this.camera.position.z - this.screen.position.z )); 
+          this.front.rotation.y = Math.atan2( ( ( this.camera.position.x +.2) - this.front.position.x ), ( this.camera.position.z - this.front.position.z )) ; 
+          this.back.rotation.y = Math.atan2( ( ( this.camera.position.x +.2) - this.back.position.x ), ( this.camera.position.z - this.back.position.z )) ;
+          this.left.rotation.y = Math.atan2( ( ( this.camera.position.x +.2) - this.left.position.x ), ( this.camera.position.z - this.left.position.z )) ;
+          this.right.rotation.y = Math.atan2( ( ( this.camera.position.x +.2) - this.right.position.x ), ( this.camera.position.z - this.right.position.z ))  ;
+          this.bottom.rotation.y = Math.atan2( ( ( this.camera.position.x +.2) - this.bottom.position.x ), ( this.camera.position.z - this.bottom.position.z ));
+          this.top.rotation.y = Math.atan2( ( ( this.camera.position.x +.2) - this.top.position.x ), ( this.camera.position.z - this.top.position.z )) ;
+        }
+        
+
+      
+       
+     
 
       } else if (newVal == false) {
+        this.screen.scale.set(.3,.3,.3);
+        this.front.scale.set(.3,.3,.3);
+        this.back.scale.set(.3,.3,.3);
+        this.left.scale.set(.3,.3,.3);
+        this.right.scale.set(.3,.3,.3);
+        this.top.scale.set(.3,.3,.3);
+        this.bottom.scale.set(.3,.3,.3);
+        this.top.position.y = 0;
+        this.back.position.y = 0;
+        this.right.position.y = 0;
+        this.bottom.position.y = 0;
+        this.left.position.y = 0;
+        this.screen.position.y = 0;
+        this.front.position.y = 0; 
+        this.top.position.x = .2;
+        this.back.position.x = .2;
+        this.right.position.x = .2;
+        this.bottom.position.x = .2;
+        this.left.position.x = .2;
+        this.screen.position.x = .2;
+        this.front.position.x = .2;
+  
+
+        this.controls.maxDistance = 1.5;
+        this.controls.minDistance = 1.3;
+        this.controls.minAzimuthAngle = 3;
+        this.controls.maxAzimuthAngle = 2;
+        this.controls.target.set(0,0,0);
+        this.controls.enablePan = false;
+        this.controls.autoRotate = true;
+        this.controls.autoRotateSpeed = 0.1;
+        this.controls.update();
+
         this.top.position.z = 0;
         this.back.position.z = 0;
         this.right.position.z = 0;
