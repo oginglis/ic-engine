@@ -2,8 +2,8 @@
   <div id="nav">
       <h1 class=nav-title>ME2 Thermodynamics Lab</h1>
       <div class="nav-button-wrapper">
-          <h1 class="nav-button" @click="toggleExplode" v-if="!ex">exploded view</h1>
-					<h1 class="nav-button" @click="toggleExplode" v-if="ex">un-explode view</h1>
+          <h1 class="nav-button" @click="toggleExplode" v-if="!ex">explode model</h1>
+					<h1 class="nav-button" @click="toggleExplode" v-if="ex">un-explode model</h1>
           <h1 class="nav-button" @click="toggleSimulation" v-if="!sim">start simulation</h1>
           <h1 class="nav-button" @click="toggleSimulation" v-if="sim">stop simulation</h1>
       </div>
@@ -15,11 +15,9 @@
 
 export default {
 	name: 'Nav',
-	data: function () {
-		return {
-			ex: false,
-			sim: false,
-		}
+	props: {
+		ex: Boolean,
+		sim: Boolean,
 	},
   methods: {
 		toggleExplode: function () {

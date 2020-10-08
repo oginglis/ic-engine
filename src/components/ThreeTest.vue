@@ -28,11 +28,17 @@ export default {
       container: null,
       geo: null,
       top: null,
+      topLabel: null,
       bottom: null,
+      bottomLabel: null,
       screen: null,
+      screenLabel: null,
       right: null,
+      rightLabel: null,
       left: null,
+      leftLabel: null,
       front:null,
+      frontLabel: null,
       labelRenderer: null,
       
     }
@@ -41,15 +47,10 @@ export default {
     scaleCanvas() {
       this.camera.aspect(this.container.clientWidth, this.container.clientHeight);
       this.renderer.setSize( this.container.clientWidth, this.container.clientHeight);
+      this.labelRenderer.setSize( this.container.clientWidth, this.container.clientHeight );
       this.camera.updateProjectMatrix();
     },
     init: function() {
-
-
-      
-
-
-
 
       let container = document.getElementById('container');
       this.container = container;
@@ -57,7 +58,6 @@ export default {
       this.camera.position.set( 0, 0, 1 );
       this.scene = new Three.Scene();
       let sceneObj = this.scene;
-
 
       this.renderer = new Three.WebGLRenderer({antialias: true});
       this.renderer.setClearColor( 0xC5C5C3 );
@@ -68,7 +68,6 @@ export default {
       
       // Attach renderer to the DOM
       container.appendChild(this.renderer.domElement);
-      
       this.controls = new OrbitControls( this.camera, this.renderer.domElement );
       this.controls.maxDistance = 1.5;
       this.controls.minDistance = 1.3;
@@ -116,13 +115,18 @@ export default {
           gltf.scene.position.x = .2;
           var text = document.createElement( 'div' );
 					text.className = 'label';
-					text.style.color = 'rgb(220,220,220)';
-					text.textContent = 'TESTER';
+          text.style.color = 'rgb(220,220,220)';
+          text.style.backgroundColor = 'rgb(255, 153, 51';
+          text.textContent = 'Click for more information';
+          text.style.borderRadius = '0';
+          text.style.padding = '10px';
+          text.style.opacity = '0';
 
-					var label = new CSS2DObject( text );
-					label.position.copy( gltf.scene.position );
+					self.frontLabel = new CSS2DObject( text );
+          self.frontLabel.position.z = .17;
+          self.frontLabel.position.x = .1;
           sceneObj.add( gltf.scene);
-          sceneObj.add( label);
+          sceneObj.add( self.frontLabel);
           self.front = gltf.scene;
         },
         // called while loading is progressing
@@ -312,6 +316,12 @@ export default {
         this.left.position.x = 0;
         this.screen.position.z = .2;
 
+        // Reveal all labels
+        var allLabels3 = [...document.querySelectorAll('.label')];
+        allLabels3.forEach((label) => {
+          label.style.opacity = "1";
+        });
+
       } else if (newVal == false) {
         this.top.position.y = 0;
         this.top.position.y = 0;
@@ -319,6 +329,11 @@ export default {
         this.bottom.position.y = 0;
         this.left.position.x = .2;
         this.screen.position.z = 0;
+
+        var allLabels4 = [...document.querySelectorAll('.label')];
+        allLabels4.forEach((label) => {
+          label.style.opacity = "0";
+        });
       }
     },
     simulating: function(newVal) { // watch it
@@ -362,6 +377,14 @@ export default {
           this.right.rotation.y = Math.atan2( ( ( this.camera.position.x +.2) - this.right.position.x ), ( this.camera.position.z - this.right.position.z ))  ;
           this.bottom.rotation.y = Math.atan2( ( ( this.camera.position.x +.2) - this.bottom.position.x ), ( this.camera.position.z - this.bottom.position.z ));
           this.top.rotation.y = Math.atan2( ( ( this.camera.position.x +.2) - this.top.position.x ), ( this.camera.position.z - this.top.position.z )) ;
+
+ 
+          // Hide all Labels
+          var allLabels = [...document.querySelectorAll('.label')];
+          allLabels.forEach((label) => {
+            label.style.opacity = "0";
+          });
+
         }
         
 
@@ -415,6 +438,12 @@ export default {
         this.controls.autoRotateSpeed = 0.1;
         this.controls.update();
         this.camera.position.set( 0, 0, 1 );
+
+        // Reveal all Labels
+        var allLabels2 = [...document.querySelectorAll('.label')];
+        allLabels2.forEach((label) => {
+          label.style.opacity = "0";
+        });
       }
     }
 

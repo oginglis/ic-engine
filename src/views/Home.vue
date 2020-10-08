@@ -1,6 +1,6 @@
 <template>
   <div id="wrapper">
-    <Nav  @explode="explodeToggle" @simulate="simulateToggle" />
+    <Nav  @explode="explodeToggle" @simulate="simulateToggle" :ex="isExploded" :sim="isSimulating" />
     <ThreeTest :exploded="isExploded" :simulating="isSimulating"/>
   </div>
 </template>
@@ -24,6 +24,7 @@ export default {
 		isExploded: function (val){
 			if (val && this.isSimulating == true) {
 				this.isSimulating = false;
+				this.isExploded = false;
 			}
 		},
 		isSimulating: function (val){
