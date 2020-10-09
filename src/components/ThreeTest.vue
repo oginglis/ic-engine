@@ -110,7 +110,7 @@ export default {
         './front.gltf',
         // called when the resource is loaded
         function ( gltf ) {		
-          console.log(gltf); 
+          
           gltf.scene.scale.set(.3,.3,.3);
           gltf.scene.position.x = .2;
           var text = document.createElement( 'div' );
@@ -148,7 +148,7 @@ export default {
         './screen.gltf',
         // called when the resource is loaded
         function ( gltf ) {		
-          console.log(gltf); 
+          
           gltf.scene.scale.set(.3,.3,.3);
           gltf.scene.position.x = .2;
           sceneObj.add( gltf.scene);
@@ -172,7 +172,7 @@ export default {
         './top.gltf',
         // called when the resource is loaded
         function ( gltf ) {		
-          console.log(gltf); 
+           
           gltf.scene.scale.set(.3,.3,.3);
           gltf.scene.position.x = .2;
           sceneObj.add( gltf.scene);
@@ -196,7 +196,7 @@ export default {
         './right.gltf',
         // called when the resource is loaded
         function ( gltf ) {		
-          console.log(gltf); 
+           
           gltf.scene.scale.set(.3,.3,.3);
           gltf.scene.position.x = .2;
           sceneObj.add( gltf.scene);
@@ -220,7 +220,7 @@ export default {
         './left.gltf',
         // called when the resource is loaded
         function ( gltf ) {		
-          console.log(gltf); 
+           
           gltf.scene.scale.set(.3,.3,.3);
           gltf.scene.position.x = .2;
           sceneObj.add( gltf.scene);
@@ -244,7 +244,7 @@ export default {
         './back.gltf',
         // called when the resource is loaded
         function ( gltf ) {		
-          console.log(gltf); 
+           
           gltf.scene.scale.set(.3,.3,.3);
           gltf.scene.position.x = .2;
           sceneObj.add( gltf.scene);
@@ -268,7 +268,7 @@ export default {
         './bottom.gltf',
         // called when the resource is loaded
         function ( gltf ) {		
-          console.log(gltf); 
+           
           gltf.scene.scale.set(.3,.3,.3);
           gltf.scene.position.x = .2;
           sceneObj.add( gltf.scene);
@@ -286,7 +286,7 @@ export default {
         }
       );
 
-      console.log(this.front)
+     
     },
     animate: function() {
         requestAnimationFrame(this.animate);
