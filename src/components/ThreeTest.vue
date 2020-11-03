@@ -1,7 +1,6 @@
 <template>
     <div id="container">
-      <h1 class="explode-check" >Exploded? = {{exploded}}</h1>
-      <h1 class="simulate-check">Simulating? = {{simulating}}</h1>
+      
     </div>
 </template>
 
@@ -116,6 +115,7 @@ export default {
           var text = document.createElement( 'div' );
 					text.className = 'label';
           text.style.color = 'rgb(220,220,220)';
+          text.style.fontFamily = 'Avenir';
           text.style.backgroundColor = 'rgb(255, 153, 51';
           text.textContent = 'Click for more information';
           text.style.borderRadius = '0';
