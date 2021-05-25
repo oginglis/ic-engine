@@ -1,11 +1,11 @@
 <template>
   <div id="nav">
-      <h1 class=nav-title>ME2 Thermodynamics Lab</h1>
+      <p class=nav-title>ME2 Thermodynamics Lab</p>
       <div class="nav-button-wrapper">
-          <h1 class="nav-button" @click="toggleExplode" v-if="!ex">explode model</h1>
-					<h1 class="nav-button" @click="toggleExplode" v-if="ex">un-explode model</h1>
-          <h1 class="nav-button" @click="toggleSimulation" v-if="!sim">start simulation</h1>
-          <h1 class="nav-button" @click="toggleSimulation" v-if="sim">stop simulation</h1>
+          <p class="nav-button" @click="toggleExplode" v-if="!ex">explode model</p>
+					<p class="nav-button" @click="toggleExplode" v-if="ex">un-explode model</p>
+          <p class="nav-button" @click="toggleSimulation" v-if="!sim">start simulation</p>
+          <p class="nav-button" @click="toggleSimulation" v-if="sim">stop simulation</p>
       </div>
   </div>
 </template>
@@ -52,11 +52,11 @@ export default {
 }
 
 .nav-button {
-    font-size: 20px;
+    font-size: 15px;
     text-align: center;
-    line-height: 55px;
+    line-height: 30px;
     margin-left: 30px;
-    padding: 0px 15px;
+    padding: 0px 5px;
     color: white;
     border-radius: 12px;
     background-color: 	#002366;
